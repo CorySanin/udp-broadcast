@@ -1,0 +1,15 @@
+{
+  "name": "udp-broadcast",
+  "version": "0.0.1",
+  "description": "Maintain a list of subscribers and broadcast UDP messages to them",
+  "main": "index.js",
+  "keywords": [
+    "udp",
+    "broadcast",
+    "subscribe",
+    "server"
+  ],
+  "repository": "github:CorySanin/udp-broadcast",
+  "author": "Cory Sanin <corysanin@outlook.com> (https://sanin.dev)",
+  "license": "MIT"
+}
