@@ -1,8 +1,10 @@
+const EventEmitter = require('events');
 const dgram = require('dgram');
 const TIMEOUT = 15000;
 
-class UdpBroadcast {
+class UdpBroadcast extends EventEmitter {
   constructor(options = {}) {
+    super();
     let port = 3616;
     let host = '127.0.0.1';
     let server = dgram.createSocket('udp4');
@@ -36,7 +38,7 @@ class UdpBroadcast {
         remote.timestamp = new Date().getTime();
         this.connections[m['id']] = remote;
         if ('message' in m && m.message !== null && m.message !== '') {
-          let event = new CustomEvent('message', m.message);
+          this.emit('message', m.message);
         }
       }
     });
