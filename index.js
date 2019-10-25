@@ -30,7 +30,7 @@ class UdpBroadcast {
     server.on('message', (message, remote) => {
       let m = JSON.parse(message);
       if (m['id'] == -1) {
-        server.send({ id: i++ }, remote.port, remote.address);
+        server.send(JSON.stringify({ id: i++ }), remote.port, remote.address);
       }
       else {
         remote.timestamp = new Date().getTime();
