@@ -5,11 +5,12 @@ const TIMEOUT = 15000;
 class UdpBroadcast extends EventEmitter {
   constructor(options = {}) {
     super();
-    let port = 3616;
+    let port = 2278;
     let host = '127.0.0.1';
     let server = dgram.createSocket('udp4');
     let i = 0;
     let intervalId = null;
+    this.subscribers = 0;
     this.connections = {};
     this.timeout = TIMEOUT;
 
@@ -24,18 +25,28 @@ class UdpBroadcast extends EventEmitter {
     }
 
     server.on('listening', () => {
-      var address = server.address();
-      console.log('UDP Server listening on ' + address.address + ':' + address.port);
-      intervalId = setInterval(this.removeInactive, Math.min(TIMEOUT, this.timeout));
+      this.emit('listening', server.address());
+      intervalId = setInterval(() => {
+        let time = new Date().getTime();
+        for (let id in this.connections) {
+          if (time - this.connections[id].timestamp > this.timeout) {
+            delete this.connections[id];
+            this.subscribers--;
+          }
+        }
+      }, Math.min(TIMEOUT, this.timeout));
     });
 
     server.on('message', (message, remote) => {
       let m = JSON.parse(message);
-      if (m['id'] == -1) {
+      if (m['id'] === -1) {
         server.send(JSON.stringify({ id: i++ }), remote.port, remote.address);
       }
       else {
         remote.timestamp = new Date().getTime();
+        if(!(m['id'] in this.connections)){
+          this.subscribers++;
+        }
         this.connections[m['id']] = remote;
         if ('message' in m && m.message !== null && m.message !== '') {
           this.emit('message', m.message);
@@ -45,7 +56,7 @@ class UdpBroadcast extends EventEmitter {
 
     this.send = (message) => {
       let str = message;
-      if(typeof(str) !== 'string'){
+      if (typeof (str) !== 'string') {
         str = JSON.stringify(str);
       }
       for (let id in this.connections) {
@@ -71,15 +82,6 @@ class UdpBroadcast extends EventEmitter {
   }
 
   close() {
-  }
-
-  removeInactive() {
-    let time = new Date().getTime();
-    for (let id in this.connections) {
-      if (time - this.connections[id].timestamp > this.timeout) {
-        delete this.connections[id];
-      }
-    }
   }
 }
 

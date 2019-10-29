@@ -3,6 +3,13 @@
   "version": "0.0.1",
   "description": "Maintain a list of subscribers and broadcast UDP messages to them",
   "main": "index.js",
+  "scripts": {
+    "test": "mocha test/*.test.js --timeout 10000"
+  },
+  "devDependencies": {
+    "mocha": "6.2.2",
+    "latches": "1.0.9"
+  },
   "keywords": [
     "udp",
     "broadcast",
