@@ -93,17 +93,21 @@ describe('UdpBroadcast', function () {
 
     it('removes clients after they timeout', function (done) {
         let client = dgram.createSocket('udp4');
-        client.send(JSON.stringify({ id: 0 }), options.port, options.host, (err, bytes) => {
+
+        this.server.on('message', (m) => {
+            setTimeout(() => {
+                client.close();
+                assert.strictEqual(this.server.subscribers, 0);
+                done();
+            }, options.timeout * 3);
+        });
+
+        client.send(JSON.stringify({ id: 0, message: 'test' }), options.port, options.host, (err, bytes) => {
             if (err) {
                 client.close();
                 done(err);
             }
         });
-        setTimeout(() => {
-            client.close();
-            assert.strictEqual(this.server.subscribers, 0);
-            done();
-        }, options.timeout * 2);
     });
 
     it('keeps connections with a heartbeat alive', function (done) {
@@ -125,7 +129,7 @@ describe('UdpBroadcast', function () {
                 client.close();
                 assert.strictEqual(this.server.subscribers, 1);
                 done();
-            }, options.timeout * 2);
+            }, options.timeout * 5);
         });
     })
 
