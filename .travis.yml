@@ -1,0 +1,12 @@
+language: node_js
+node_js: "node"
+matrix:
+  include:
+    - os: linux
+notifications:
+  email: false
+install:
+  - rm package-lock.json
+  - npm install
+script:
+  - npm test
