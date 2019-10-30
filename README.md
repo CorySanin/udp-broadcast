@@ -9,8 +9,11 @@ A simple Node module for broadcasting UDP messages to a list of subscribers!
 
 I couldn't find anything that did what I wanted so I made my own.
 
+## Usage
+### Server
+
 ```
-const UdpBroadcast = require('udp-broadcast');
+const UdpBroadcast = require('udp-broadcast').server;
 
 let udpbroadcast = new UdpBroadcast({
     port: 3616,
@@ -25,4 +28,39 @@ udpbroadcast.send('Hello, everyone.');
 udpbroadcast.send({timestamp: new Date().getTime(), message: 'Greetings.'});
 ```
 
-TODO: instructions for clients
+### Client
+
+```
+const UdpClient = require('udp-broadcast').client;
+
+let udpclient = UdpClient({
+    port: 3616,
+    host: '127.0.0.1',
+    heartbeat: 7500‬
+});
+
+udpclient.on('message', (message) => {console.log(message)});
+
+udpclient.open((err, id) => {
+    if(err){
+        console.log(err);
+    }
+    else{
+        udpclient.send('Hello to you, too.');
+    }
+});
+```
+
+### Custom Client
+
+In order to implement a client for udp-broadcast, it must communicate using the following, easy to implement protocol:
+
+Client sends `{ "id": -1 }`
+
+Server responds with `{ "id": x }` where x is the id that the client must use for all messages until it closes its connection.
+
+Client sends `{ "id": x }` every y seconds, where y is strictly less than the timeout being used by the server.
+
+When a message must be sent back to the server, the format for the message is `{ "id": x, "message": "this is the body of the message." }`.
+
+Messages sent from the broadcast server don't get formatted so it's up to you to find out whether to expect plain text or JSON.

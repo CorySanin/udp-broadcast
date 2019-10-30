@@ -1,7 +1,7 @@
 const assert = require('assert');
 const dgram = require('dgram');
 const Latches = require('latches')
-const UdpBroadcast = require('..');
+const UdpBroadcast = require('..').server;
 
 const options = {
     host: '127.0.0.1',
