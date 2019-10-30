@@ -16,7 +16,7 @@ I couldn't find anything that did what I wanted so I made my own.
 const UdpBroadcast = require('udp-broadcast').server;
 
 let udpbroadcast = new UdpBroadcast({
-    port: 3616,
+    port: 2278,
     host: '0.0.0.0',
     timeout: 15000
 });
