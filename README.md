@@ -1,6 +1,8 @@
 # udp-broadcast
 
 [![Travis build](https://img.shields.io/travis/CorySanin/udp-broadcast)](https://travis-ci.org/CorySanin/udp-broadcast) 
+[![npm downloads](https://img.shields.io/npm/dt/udp-broadcast)](https://www.npmjs.com/package/udp-broadcast)
+[![npm bundle size](https://img.shields.io/bundlephobia/min/udp-broadcast)](https://bundlephobia.com/result?p=udp-broadcast)
 [![David](https://img.shields.io/david/dev/CorySanin/udp-broadcast)](https://david-dm.org/CorySanin/udp-broadcast?type=dev)
 [![License](https://img.shields.io/github/license/CorySanin/udp-broadcast)](https://github.com/CorySanin/udp-broadcast/blob/master/LICENSE)
 [![GitHub package.json version](https://img.shields.io/github/package-json/v/CorySanin/udp-broadcast)](https://github.com/CorySanin/udp-broadcast/blob/master/package.json)
