@@ -1,14 +1,14 @@
 {
   "name": "udp-broadcast",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Maintain a list of subscribers and broadcast UDP messages to them",
   "main": "index.js",
   "scripts": {
     "test": "mocha test/*.test.js --timeout 10000"
   },
   "devDependencies": {
-    "mocha": "7.1.1",
-    "latches": "1.0.9"
+    "latches": "1.0.9",
+    "mocha": "8.4.0"
   },
   "keywords": [
     "udp",
